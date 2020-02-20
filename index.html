@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      *{
+        margin: 2px;
+        padding: 0px;
+      }*
+      .wrapper{
+        width: 100%;
+        height: 100%;
+        background-image: url('fondo2.png');
+        background-size: cover; 
+      }
+
+      .container{
+        width: 75%;
+        height: 100%;
+        
+      }
+
+      .infobox{
+        width: 18%;
+        height: 75%;
+        border: 6px solid blue;
+        margin-left: 78%;
+        margin-top: 9%;
+        border-radius: 15px;
+        position: fixed;
+        background-image: url("backinfo.jpg");
+        background-size: cover;
+      }
+
+      .container img{
+        width: 75px;
+        height: 75px;
+        margin-right: 4px;
+        background-image: url('pokebola.jpg');
+      	background-size: cover;
+      }
+
+      .title{
+        width: 25%;
+        height: 20%;
+        text-align: center;
+        margin-left: 74%; 
+       	position: fixed;
+        background-image: url("pokemon.png");
+        background-size: cover;
+      }
+
+      .nombre{
+        width: 90%;
+        height: 9%;
+        margin-left: 5%;
+        margin-top: 1%;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 90%;
+      }
+
+      .pokemon{
+      	width: 65%;
+      	height: 40%;
+      	margin-left: 20%;	
+      }
+
+      .pokemon img{
+      	width: 100%;
+        height: 100%;
+        margin-top: -17%;
+        background: none;
+        border: none;
+      }
+      .infobox img{
+        width: 100%;
+        height: 100%;
+      }
+
+      .tipo{
+      	width: 90%;
+      	height: 18%;
+      	margin-left: 5%;
+        margin-top: 10%;
+      }
+       .peso{
+      	width: 90%;
+      	height: 12%;
+      	margin-left: 5%;
+      }
+
+     .altura{
+      	width: 90%;
+      	height: 12%;
+      	margin-left: 5%;
+      }
+
+     li{
+     	margin-left: 20%;
+     	font-size: 18px;
+     }
+
+    p{
+    	font-size: 22px;
+    }
+    .nomostrar{
+      display: none;
+    }
+    h4{
+      font-size: 45px;
+      margin-left: 75%;
+      margin-top: 20%;
+      position: absolute;
+      text-align: center;
+    }
+    
+    </style>
+    <meta charset="utf-8">
+    <title>POKEDEX</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+    	$(document).ready(function(){
+        	for(var i = 1; i < 152; i++){
+        		var url = "<img id='"+i+"' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ i +".png'>";
+        		// console.log(url);
+          		$('.container').append(url);
+         	 };
+
+        	$('div.container').on('click', 'img', function(){
+
+        		$.get("https://pokeapi.co/api/v2/pokemon/"+$(this).attr('id')+"/", function(nombre){
+        			$('h2').remove();
+        			$('.nombre').append('<h2>'+nombre .name+'</h2>');
+        		})
+
+        			$('.pokemon img').remove();
+        			$('.pokemon').append('<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+$(this).attr('id')+'.png">');
+
+        			$.get("https://pokeapi.co/api/v2/pokemon/"+$(this).attr('id')+"/", function(tipo){
+        				$('.tipo li').remove();
+        				 for(var i = 0; i < tipo.types.length; i++) {
+                      	$('.tipo').append('<li>'+ tipo.types[i].type.name +'</li>');
+                   		 }	
+        			})
+
+        		$.get("https://pokeapi.co/api/v2/pokemon/"+$(this).attr('id')+"/", function(peso){
+        			$('.peso li').remove();
+        			$('.peso').append('<li>'+peso .weight+'</li>');
+        		})
+
+        		$.get("https://pokeapi.co/api/v2/pokemon/"+$(this).attr('id')+"/", function(altura){
+        			$('.altura li').remove();
+        			$('.altura').append('<li>'+altura .height+'</li>');
+        		})
+
+
+        	});
+
+            $('img').click(function(){
+              $('.infobox').hide();
+              $('.infobox').slideToggle('.container');
+              $('h4').hide();
+            })
+      })
+
+    </script>
+  </head>
+  <body>
+      <div class='wrapper'>
+      <div class='container'>
+        <h4>Elije tu pokemon!</h4>
+      <div class='title'></div>
+      <div class='infobox nomostrar'>
+        <div class="nombre"></div>
+        <div class="pokemon"></div>
+        <div class="tipo"><p>Tipos:</p></div>
+        <div class='peso'><p>Peso:</p></div>
+        <div class='altura'><p>Altura:</p></div>
+        </div>
+        </div>
+      </div>
+      
+    </div>
+
+  </body>
+</html>
